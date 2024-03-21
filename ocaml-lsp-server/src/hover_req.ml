@@ -93,19 +93,7 @@ let handle server { HoverParams.textDocument = { uri }; position; _ } mode =
               Fiber.return (String.trim v)
             | Error `No_process -> Fiber.return typ
             | Error (`Msg message) ->
-              (* We log OCamlformat errors and display the unformated type *)
-              let+ () =
-                let message =
-                  sprintf
-                    "An error occured while querying ocamlformat:\n\
-                     Input type: %s\n\n\
-                     Answer: %s"
-                    typ
-                    message
-                in
-                State.log_msg server ~type_:Warning ~message
-              in
-              typ
+              Fiber.return typ
           in
           let contents =
             let markdown =
